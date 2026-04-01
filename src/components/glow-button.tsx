@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { cn } from "./ui/utils";
 
 interface GlowButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -19,9 +18,7 @@ export function GlowButton({
   };
 
   return (
-    <motion.button
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+    <button
       className={cn(
         "px-6 py-3 rounded-lg transition-all duration-300 font-medium flex items-center gap-2",
         variants[variant],
@@ -30,6 +27,6 @@ export function GlowButton({
       {...props}
     >
       {children}
-    </motion.button>
+    </button>
   );
 }

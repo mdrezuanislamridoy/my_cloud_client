@@ -47,7 +47,7 @@ export function PricingPage() {
 
   useEffect(() => {
     subscriptionService.getAllPlans()
-      .then((data) => setPlans(Array.isArray(data) ? data : []))
+      .then((data) => setPlans(Array.isArray(data) ? (data as unknown as Plan[]) : []))
       .catch(() => setPlans([]))
       .finally(() => setLoading(false));
   }, []);

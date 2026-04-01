@@ -17,7 +17,9 @@ const statusColor: Record<string, string> = {
   FAILED: "bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/20",
 };
 
-const statusIcon: Record<string, JSX.Element> = {
+import type { ReactElement } from "react";
+
+const statusIcon: Record<string, ReactElement> = {
   PAID: <CheckCircle className="h-3.5 w-3.5" />,
   PENDING: <Clock className="h-3.5 w-3.5" />,
   CANCELLED: <XCircle className="h-3.5 w-3.5" />,
@@ -32,10 +34,12 @@ export function AdminPage() {
 
   useEffect(() => {
     fetchStats();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     fetchSubscriptions({ page, limit: 10, search: search || undefined, status: statusFilter || undefined });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, statusFilter]);
 
   const handleSearch = (e: React.FormEvent) => {
