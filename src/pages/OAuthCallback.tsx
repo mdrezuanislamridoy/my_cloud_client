@@ -23,7 +23,8 @@ export function OAuthCallbackPage() {
     fetchProfile()
       .then(() => {
         toast.success("Logged in with Google!");
-        navigate("/app", { replace: true });
+        const { user } = useAuthStore.getState();
+        navigate(user?.role === "ADMIN" ? "/admin" : "/app", { replace: true });
       })
       .catch(() => {
         toast.error("Failed to load profile");
