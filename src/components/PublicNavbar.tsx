@@ -17,7 +17,7 @@ export function PublicNavbar() {
           {[
             { label: "Features", href: "/#features" },
             { label: "Pricing", href: "/pricing" },
-            { label: "Docs", href: "#" },
+            { label: "Docs", href: "/docs" },
           ].map((item) => (
             <Link
               key={item.label}

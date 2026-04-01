@@ -22,6 +22,7 @@ import { OAuthCallbackPage } from './pages/OAuthCallback';
 import { PricingPage } from './pages/Pricing';
 import { SubscriptionSuccessPage } from './pages/SubscriptionSuccess';
 import { SubscriptionCancelPage } from './pages/SubscriptionCancel';
+import { DocsPage } from './pages/Docs';
 import './App.css';
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
           <Route path="/auth/callback" element={<OAuthCallbackPage />} />
           <Route path="/subscription/success" element={<SubscriptionSuccessPage />} />
           <Route path="/subscription/cancel" element={<SubscriptionCancelPage />} />
+          <Route path="/docs" element={<DocsPage />} />
 
           {/* User Dashboard */}
           <Route path="/app" element={<AuthGuard><DashboardLayout /></AuthGuard>}>

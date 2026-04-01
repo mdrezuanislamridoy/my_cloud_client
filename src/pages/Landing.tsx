@@ -43,20 +43,30 @@ const features = [
 ];
 
 
-const codeExample = `import { MyCloud } from '@mycloud/sdk';
+const codeExample = `import { RRVault } from "@rr-vault/r2";
 
-const cloud = new MyCloud({
-  apiKey: 'mc_live_...',
-  appId: 'app_v1...'
+
+RRVault.config({
+  appId: process.env.RRVAULT_APP_ID,
+  apiKey: process.env.RRVAULT_API_KEY,
+  secretKey: process.env.RRVAULT_SECRET_KEY,
 });
 
 // Upload a user avatar
-const { url } = await cloud.upload({
-  file: imageFile,
-  path: 'avatars/profile-1.jpg'
-});
+  try {
+    console.log(req.file.originalname);
 
-console.log('Public URL:', url);`;
+    const response = await RRVault.upload(
+      req.file.buffer,
+      req.file.originalname,
+      {
+        contentType: req.file.mimetype,
+      },
+    );
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }`;
 
 export function LandingPage() {
   const { accessToken } = useAuthStore();
