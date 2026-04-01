@@ -1,22 +1,91 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useUserDashboardStore } from "../store/useUserDashboardStore";
 import { useCloudStore } from "../store/useCloudStore";
 import { useSecretsStore } from "../store/useSecretsStore";
-import { HardDrive, Folder, Files, Package, FileText, Image as ImageIcon, Video, Eye, EyeOff, Copy } from "lucide-react";
+import { HardDrive, Folder, Files, Package, FileText, Image as ImageIcon, Video, Eye, EyeOff, Copy, RefreshCw, Plus } from "lucide-react";
 import { toast } from "sonner";
 
-// server field helpers
 const getName = (f: any) => f.name || f.fileName || "";
 const getSize = (f: any) => f.fileSize || f.size || 0;
 const getMime = (f: any) => f.fileType || f.mimeType || "";
 const getDate = (f: any) => f.uploaded_at || f.createdAt || "";
 
+function KeyCard({
+  label,
+  value,
+  onCopy,
+  onAction,
+  actionLabel,
+  actionIcon,
+  actionLoading,
+  color = "#7C3AED",
+}: {
+  label: string;
+  value: string;
+  onCopy: () => void;
+  onAction?: () => void;
+  actionLabel?: string;
+  actionIcon?: React.ReactNode;
+  actionLoading?: boolean;
+  color?: string;
+}) {
+  const [show, setShow] = useState(false);
+  const masked = value ? `${value.slice(0, 8)}••••••••••••••••••••${value.slice(-4)}` : "—";
+
+  return (
+    <div className="bg-[#0F172A] border border-[#1E293B] rounded-xl p-5">
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-sm font-semibold text-[#94A3B8]">{label}</h2>
+        <div className="flex items-center gap-2">
+          {onAction && (
+            <button
+              onClick={onAction}
+              disabled={actionLoading}
+              className="flex items-center gap-1 text-[10px] font-bold text-[#4A5568] hover:text-white transition-colors uppercase tracking-widest disabled:opacity-50"
+              title={actionLabel}
+            >
+              {actionLoading ? (
+                <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+              ) : (
+                actionIcon
+              )}
+              {actionLabel}
+            </button>
+          )}
+          <button
+            onClick={() => setShow((v) => !v)}
+            className="flex items-center gap-1 text-[10px] font-bold text-[#4A5568] hover:text-white transition-colors uppercase tracking-widest"
+          >
+            {show ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+            {show ? "Hide" : "Show"}
+          </button>
+          <button
+            onClick={onCopy}
+            disabled={!value}
+            className="flex items-center gap-1 text-[10px] font-bold hover:text-[#22D3EE] transition-colors uppercase tracking-widest disabled:opacity-40"
+            style={{ color }}
+          >
+            <Copy className="h-3.5 w-3.5" /> Copy
+          </button>
+        </div>
+      </div>
+      <div className="bg-[#0B1220] border border-[#1E293B] rounded-xl px-4 py-3">
+        <code className="text-sm text-[#E2E8F0] font-mono break-all">
+          {show ? (value || "—") : masked}
+        </code>
+      </div>
+    </div>
+  );
+}
+
 export function DashboardPage() {
   const { user } = useAuthStore();
   const { overview, apps, folders, fetchOverview, fetchApps, fetchFolders } = useUserDashboardStore();
   const { files, fetchFiles } = useCloudStore();
-  const { secretKey, apiKey, fetchSecretKey, fetchApiKey } = useSecretsStore();
+  const { secretKey, apiKey, fetchSecretKey, fetchApiKey, generateSecretKey, updateSecretKey } = useSecretsStore();
+  const [secretLoading, setSecretLoading] = useState(false);
 
   useEffect(() => {
     fetchOverview();
@@ -24,6 +93,7 @@ export function DashboardPage() {
     fetchFolders();
     fetchFiles();
     fetchApiKey();
+    fetchSecretKey();
   }, []);
 
   const getFileIcon = (mime?: string) => {
@@ -33,16 +103,26 @@ export function DashboardPage() {
     return <FileText className="h-4 w-4" />;
   };
 
-  const displayApiKey = apiKey?.apiKey || secretKey?.apiKey || "";
+  const displayApiKey = apiKey?.apiKey || "";
+  const displaySecretKey = secretKey?.secretKey || "";
   const storageBytes = overview?.totalStorageUsed ?? 0;
   const storageUsedGB = (storageBytes / (1024 * 1024 * 1024)).toFixed(2);
-  const [showKey, setShowKey] = useState(false);
-  const masked = displayApiKey ? `${displayApiKey.slice(0, 8)}••••••••••••••••••••${displayApiKey.slice(-4)}` : "—";
 
-  const copyKey = () => {
-    if (!displayApiKey) return;
-    navigator.clipboard.writeText(displayApiKey);
-    toast.success("API Key copied!");
+  const handleSecretAction = async () => {
+    setSecretLoading(true);
+    try {
+      if (displaySecretKey) {
+        await updateSecretKey();
+        toast.success("API Secret regenerated!");
+      } else {
+        await generateSecretKey();
+        toast.success("API Secret generated!");
+      }
+    } catch {
+      toast.error("Failed to update API Secret");
+    } finally {
+      setSecretLoading(false);
+    }
   };
 
   return (
@@ -71,30 +151,24 @@ export function DashboardPage() {
         ))}
       </div>
 
-      <div className="bg-[#0F172A] border border-[#1E293B] rounded-xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-[#94A3B8]">Your API Key</h2>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setShowKey((v) => !v)}
-              className="flex items-center gap-1 text-[10px] font-bold text-[#4A5568] hover:text-white transition-colors uppercase tracking-widest"
-            >
-              {showKey ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-              {showKey ? "Hide" : "Show"}
-            </button>
-            <button
-              onClick={copyKey}
-              className="flex items-center gap-1 text-[10px] font-bold text-[#7C3AED] hover:text-[#22D3EE] transition-colors uppercase tracking-widest"
-            >
-              <Copy className="h-3.5 w-3.5" /> Copy
-            </button>
-          </div>
-        </div>
-        <div className="bg-[#0B1220] border border-[#1E293B] rounded-xl px-4 py-3">
-          <code className="text-sm text-[#E2E8F0] font-mono break-all">
-            {showKey ? (displayApiKey || "—") : masked}
-          </code>
-        </div>
+      {/* API Keys */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <KeyCard
+          label="Your API Key"
+          value={displayApiKey}
+          onCopy={() => { if (displayApiKey) { navigator.clipboard.writeText(displayApiKey); toast.success("API Key copied!"); } }}
+          color="#7C3AED"
+        />
+        <KeyCard
+          label="Your API Secret"
+          value={displaySecretKey}
+          onCopy={() => { if (displaySecretKey) { navigator.clipboard.writeText(displaySecretKey); toast.success("API Secret copied!"); } }}
+          onAction={handleSecretAction}
+          actionLabel={displaySecretKey ? "Regenerate" : "Generate"}
+          actionIcon={displaySecretKey ? <RefreshCw className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+          actionLoading={secretLoading}
+          color="#22D3EE"
+        />
       </div>
 
       <div className="bg-[#0F172A] border border-[#1E293B] rounded-xl p-5">

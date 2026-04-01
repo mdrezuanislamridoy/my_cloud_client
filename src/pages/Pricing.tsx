@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Check, Zap, Star, Crown, ArrowRight, HardDrive, Files } from "lucide-react";
 import { cn } from "../components/ui/utils";
 import { subscriptionService } from "../services/subscription.service";
 import { PublicNavbar } from "../components/PublicNavbar";
+import { useAuthStore } from "../store/useAuthStore";
+import { useSubscriptionStore } from "../store/useSubscriptionStore";
+import { toast } from "sonner";
 
 type BillingCycle = "MONTHLY" | "YEARLY";
 
@@ -37,6 +40,10 @@ export function PricingPage() {
   const [cycle, setCycle] = useState<BillingCycle>("MONTHLY");
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
+  const [subscribing, setSubscribing] = useState<string | null>(null);
+  const { accessToken } = useAuthStore();
+  const { subscribe } = useSubscriptionStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     subscriptionService.getAllPlans()
@@ -47,6 +54,32 @@ export function PricingPage() {
 
   const getPricing = (plan: Plan) =>
     plan.pricings.find((p) => p.billingCycle === cycle) ?? plan.pricings[0];
+
+  const handleCTA = async (plan: Plan) => {
+    if (!accessToken) {
+      navigate("/register");
+      return;
+    }
+    const pricing = getPricing(plan);
+    if (!pricing || pricing.price === 0) {
+      navigate("/app/billing");
+      return;
+    }
+    setSubscribing(plan.id);
+    try {
+      const url = await subscribe(plan.id);
+      if (url) {
+        window.location.href = url;
+      } else {
+        navigate("/app/billing");
+      }
+    } catch (err: unknown) {
+      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      toast.error(msg || "Failed to initiate checkout");
+    } finally {
+      setSubscribing(null);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#0B1220] text-[#E2E8F0]">
@@ -208,18 +241,19 @@ export function PricingPage() {
                       )}
 
                       {/* CTA */}
-                      <Link
-                        to="/register"
+                      <button
+                        onClick={() => handleCTA(plan)}
+                        disabled={subscribing === plan.id}
                         className={cn(
-                          "w-full py-4 rounded-xl text-sm font-black text-center flex items-center justify-center gap-2 transition-all",
+                          "w-full py-4 rounded-xl text-sm font-black text-center flex items-center justify-center gap-2 transition-all disabled:opacity-60",
                           plan.isPopular
                             ? "bg-[#7C3AED] hover:bg-[#6D28D9] text-white shadow-lg shadow-[#7C3AED]/20"
                             : "bg-[#1E293B] hover:bg-[#2D3748] text-white border border-[#2D3748]"
                         )}
                       >
-                        {pricing?.price === 0 ? "Get Started Free" : "Start Now"}
+                        {subscribing === plan.id ? "Redirecting..." : pricing?.price === 0 ? "Get Started Free" : accessToken ? "Subscribe Now" : "Start Now"}
                         <ArrowRight className="h-4 w-4" />
-                      </Link>
+                      </button>
                     </div>
                   </motion.div>
                 );

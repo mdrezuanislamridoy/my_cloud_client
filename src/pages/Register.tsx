@@ -25,13 +25,13 @@ export function RegisterPage() {
     <div className="min-h-screen bg-[#0B1220] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <Link to="/" className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-8 h-8 bg-gradient-to-br from-[#7C3AED] to-[#22D3EE] rounded-lg" />
-          <span className="text-xl font-bold text-white">MyCloud</span>
+          <img src="/rr_vault_logo.jpg" alt="RR Vault" className="w-8 h-8 rounded-lg object-cover" />
+          <span className="text-xl font-bold text-white">RR Vault</span>
         </Link>
 
         <div className="bg-[#0F172A] border border-[#1E293B] rounded-2xl p-8">
           <h1 className="text-2xl font-bold text-white mb-1">Create account</h1>
-          <p className="text-[#94A3B8] text-sm mb-8">Start using MyCloud for free</p>
+          <p className="text-[#94A3B8] text-sm mb-8">Start using RR Vault for free</p>
 
           <form onSubmit={handleRegister} className="space-y-5">
             <div>

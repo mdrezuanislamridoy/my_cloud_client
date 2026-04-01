@@ -26,6 +26,11 @@ export const subscriptionService = {
     await api.delete(`/subscription/${id}`);
   },
 
+  async getUserSubscription(): Promise<any> {
+    const response = await api.get('/subscription/my');
+    return response.data?.data ?? response.data ?? null;
+  },
+
   async subscribe(planId: string): Promise<CheckoutSessionResponse> {
     const response = await api.post(`/subscription/${planId}/subscribe`);
     return response.data?.data ?? response.data;

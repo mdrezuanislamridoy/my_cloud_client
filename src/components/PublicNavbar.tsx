@@ -9,8 +9,8 @@ export function PublicNavbar() {
     <nav className="border-b border-[#1E293B] backdrop-blur-xl bg-[#0B1220]/60 fixed w-full z-50 transition-all duration-300">
       <div className="max-w-[1600px] mx-auto px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-gradient-to-br from-[#7C3AED] to-[#22D3EE] rounded-lg shadow-[0_0_15px_rgba(124,58,237,0.4)] group-hover:scale-110 transition-transform" />
-          <span className="text-xl font-bold tracking-tight text-white">MyCloud</span>
+          <img src="/rr_vault_logo.jpg" alt="RR Vault" className="w-8 h-8 rounded-lg object-cover group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(124,58,237,0.4)]" />
+          <span className="text-xl font-bold tracking-tight text-white">RR Vault</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-10">

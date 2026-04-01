@@ -60,6 +60,7 @@ console.log('Public URL:', url);`;
 
 export function LandingPage() {
   const { accessToken } = useAuthStore();
+  return (
   <div className="min-h-screen bg-[#0B1220] text-[#E2E8F0] selection:bg-[#7C3AED]/30 selection:text-white overflow-x-hidden">
     {/* Background Gradients */}
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -196,7 +197,7 @@ export function LandingPage() {
           <div className="relative z-10">
             <h2 className="text-4xl md:text-5xl font-black mb-6">Scale Your App Today</h2>
             <p className="text-lg text-[#94A3B8] mb-10 max-w-xl mx-auto">
-              Join thousands of developers who trust MyCloud for their mission-critical file management.
+              Join thousands of developers who trust RR Vault for their mission-critical file management.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/register">
@@ -221,8 +222,8 @@ export function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-br from-[#7C3AED] to-[#22D3EE] rounded-lg" />
-              <span className="text-xl font-bold tracking-tight">MyCloud</span>
+              <img src="/rr_vault_logo.jpg" alt="RR Vault" className="w-8 h-8 rounded-lg object-cover" />
+              <span className="text-xl font-bold tracking-tight">RR Vault</span>
             </div>
             <p className="text-[#94A3B8] text-sm leading-relaxed mb-6">
               Redefining the way developers interact with cloud storage. Fast, Secure, and Scalable.
@@ -243,7 +244,7 @@ export function LandingPage() {
           
         <div className="pt-12 border-t border-[#1E293B]/50 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-xs text-[#94A3B8] font-medium uppercase tracking-widest">
-            © 2026 MyCloud Infrastructure Inc.
+            © 2026 RR Vault Infrastructure Inc.
           </p>
           <div className="flex items-center gap-8 text-xs font-semibold text-[#94A3B8]">
             <a href="#" className="hover:text-white transition-colors">Twitter</a>
@@ -254,4 +255,5 @@ export function LandingPage() {
       </div>
     </footer>
   </div>
+  );
 }

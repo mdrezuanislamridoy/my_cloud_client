@@ -13,7 +13,7 @@ interface AuthState {
 
   setTokens: (accessToken: string, refreshToken: string) => void;
   setUser: (user: User) => void;
-  login: (data: Record<string, any>) => Promise<void>;
+  login: (data: Record<string, any>) => Promise<User | null>;
   register: (data: Record<string, any>) => Promise<void>;
   fetchProfile: () => Promise<void>;
   logout: () => Promise<void>;
@@ -50,7 +50,6 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null, accessToken: null });
         try {
           const response = await authService.login(data);
-          // Server returns: { success, message, data: { accessToken, user } }
           const payload = (response as any)?.data ?? response;
           const accessToken = payload?.accessToken;
           const userObj = payload?.user;
@@ -62,6 +61,8 @@ export const useAuthStore = create<AuthState>()(
             user: userObj ?? null,
             isLoading: false,
           });
+
+          return userObj;
         } catch (error: any) {
           set({
             error:
