@@ -4,6 +4,7 @@ import { LandingPage } from './pages/Landing';
 import { LoginPage } from './pages/Login';
 import { RegisterPage } from './pages/Register';
 import { VerifyEmailPage } from './pages/VerifyEmail';
+import { AuthCallbackPage } from './pages/AuthCallback';
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { AdminLayout } from './layouts/AdminLayout';
 import { DashboardPage } from './pages/Dashboard';
@@ -18,7 +19,6 @@ import { AdminSubscriptionsPage } from './pages/admin/Subscriptions';
 import { AdminPlansPage } from './pages/admin/Plans';
 import { AdminAppsPage } from './pages/admin/Apps';
 import { AuthGuard, GuestGuard, AdminGuard } from './components/AuthGuard';
-import { OAuthCallbackPage } from './pages/OAuthCallback';
 import { PricingPage } from './pages/Pricing';
 import { SubscriptionSuccessPage } from './pages/SubscriptionSuccess';
 import { SubscriptionCancelPage } from './pages/SubscriptionCancel';
@@ -47,8 +47,8 @@ function App() {
           <Route path="/pricing" element={<PricingPage />} />
           <Route path="/login" element={<GuestGuard><LoginPage /></GuestGuard>} />
           <Route path="/register" element={<GuestGuard><RegisterPage /></GuestGuard>} />
+          <Route path="/auth/callback" element={<AuthCallbackPage />} />
           <Route path="/auth/verify-email" element={<VerifyEmailPage />} />
-          <Route path="/auth/callback" element={<OAuthCallbackPage />} />
           <Route path="/subscription/success" element={<SubscriptionSuccessPage />} />
           <Route path="/subscription/cancel" element={<SubscriptionCancelPage />} />
           <Route path="/docs" element={<DocsPage />} />

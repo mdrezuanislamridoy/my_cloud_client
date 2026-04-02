@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { useAuthStore } from "../store/useAuthStore";
 import { authService } from "../services/auth.service";
-import { User, Lock, Trash2, Shield, Settings as SettingsIcon } from "lucide-react";
+import { User, Lock, Trash2, Settings as SettingsIcon } from "lucide-react";
 
 export function SettingsPage() {
   const { user, fetchProfile } = useAuthStore();
@@ -133,56 +133,48 @@ export function SettingsPage() {
             </div>
           </div>
 
-          {user?.accountType === "GOOGLE" ? (
-            <div className="flex flex-col items-center justify-center py-10 text-center">
-              <Shield className="h-10 w-10 text-[#4A5568] mb-3" />
-              <p className="text-sm font-bold text-[#94A3B8]">Google account</p>
-              <p className="text-xs text-[#4A5568] mt-1">Password is managed by Google</p>
+          <form onSubmit={handleChangePassword} className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-widest mb-2">Current Password</label>
+              <input
+                type="password"
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors"
+              />
             </div>
-          ) : (
-            <form onSubmit={handleChangePassword} className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-widest mb-2">Current Password</label>
-                <input
-                  type="password"
-                  value={oldPassword}
-                  onChange={(e) => setOldPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-widest mb-2">New Password</label>
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-widest mb-2">Confirm Password</label>
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors"
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={changingPw}
-                className="w-full border border-[#1E293B] hover:border-[#22D3EE]/50 hover:bg-[#22D3EE]/5 text-[#94A3B8] hover:text-white text-sm font-bold py-3 rounded-xl transition-colors disabled:opacity-50"
-              >
-                {changingPw ? "Updating..." : "Update Password"}
-              </button>
-            </form>
-          )}
+            <div>
+              <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-widest mb-2">New Password</label>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-widest mb-2">Confirm Password</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={changingPw}
+              className="w-full border border-[#1E293B] hover:border-[#22D3EE]/50 hover:bg-[#22D3EE]/5 text-[#94A3B8] hover:text-white text-sm font-bold py-3 rounded-xl transition-colors disabled:opacity-50"
+            >
+              {changingPw ? "Updating..." : "Update Password"}
+            </button>
+          </form>
         </div>
       </div>
 

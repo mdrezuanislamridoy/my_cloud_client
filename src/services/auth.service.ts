@@ -50,9 +50,5 @@ export const authService = {
   async validateApp(data: { appId: string; apiKey: string; secretKey: string }): Promise<any> {
     const response = await api.post('/api/v1/validate', data);
     return response.data;
-  },
-
-  getGoogleAuthUrl(): string {
-    return `${api.defaults.baseURL || 'http://localhost:3000'}/auth/google`;
   }
 };

@@ -98,8 +98,9 @@ export const useSecretsStore = create<SecretsState>((set) => ({
   generateAppId: async (name: string) => {
     set({ isLoading: true, error: null });
     try {
-      const newApp = await secretsService.generateAppId({ name });
-      set((state) => ({ appIds: [...state.appIds, newApp], isLoading: false }));
+      await secretsService.generateAppId({ name });
+      const updatedAppIds = await secretsService.getAppIds();
+      set({ appIds: Array.isArray(updatedAppIds) ? updatedAppIds : [], isLoading: false });
     } catch (error: any) {
       set({
         error: error.response?.data?.message || "Failed to generate app ID",

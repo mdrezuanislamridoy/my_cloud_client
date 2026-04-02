@@ -23,44 +23,17 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
-
-    if (
-      error.response?.status === 401 &&
-      !originalRequest._retry &&
-      !originalRequest.url?.includes('/auth/refresh-token') &&
-      !originalRequest.url?.includes('/auth/logout')
-    ) {
-      originalRequest._retry = true;
-
-      try {
-        const refreshToken = useAuthStore.getState().refreshToken;
-        if (!refreshToken) {
-          await useAuthStore.getState().logout();
-          return Promise.reject(error);
-        }
-
-        // Server expects { refreshToken } in body
-        const response = await axios.post(`${API_URL}/auth/refresh-token`, { refreshToken });
-
-        // Server returns: { success, message, data: { accessToken } }
-        const newAccessToken = response.data?.data?.accessToken;
-
-        if (!newAccessToken) {
-          await useAuthStore.getState().logout();
-          return Promise.reject(error);
-        }
-
-        useAuthStore.getState().setTokens(newAccessToken, refreshToken);
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(originalRequest);
-      } catch {
-        await useAuthStore.getState().logout();
-        return Promise.reject(error);
-      }
+  (error) => {
+    // Check if it's an unauthorized error
+    if (error.response?.status === 401) {
+      // Clear store to force re-login if unauthorized
+      useAuthStore.setState({
+        user: null,
+        accessToken: null,
+        refreshToken: null,
+        verificationToken: null,
+      });
     }
-
     return Promise.reject(error);
   }
 );
