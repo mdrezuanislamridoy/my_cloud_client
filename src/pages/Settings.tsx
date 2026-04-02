@@ -22,6 +22,8 @@ export function SettingsPage() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [changingPw, setChangingPw] = useState(false);
+  
+  const isGoogleLogin = user?.accountType === "GOOGLE";
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -134,6 +136,11 @@ export function SettingsPage() {
           </div>
 
           <form onSubmit={handleChangePassword} className="space-y-4">
+            {isGoogleLogin && (
+              <div className="bg-[#22D3EE]/10 border border-[#22D3EE]/20 rounded-xl p-3 mb-4">
+                <p className="text-xs text-[#22D3EE] font-bold">Password change is disabled for Google accounts.</p>
+              </div>
+            )}
             <div>
               <label className="block text-xs font-bold text-[#94A3B8] uppercase tracking-widest mb-2">Current Password</label>
               <input
@@ -142,7 +149,8 @@ export function SettingsPage() {
                 onChange={(e) => setOldPassword(e.target.value)}
                 placeholder="••••••••"
                 required
-                className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors"
+                disabled={isGoogleLogin}
+                className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               />
             </div>
             <div>
@@ -153,7 +161,8 @@ export function SettingsPage() {
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="••••••••"
                 required
-                className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors"
+                disabled={isGoogleLogin}
+                className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               />
             </div>
             <div>
@@ -164,13 +173,14 @@ export function SettingsPage() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="••••••••"
                 required
-                className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors"
+                disabled={isGoogleLogin}
+                className="w-full bg-[#0B1220] border border-[#1E293B] text-white rounded-xl px-4 py-3 text-sm outline-none focus:border-[#7C3AED]/60 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               />
             </div>
             <button
               type="submit"
-              disabled={changingPw}
-              className="w-full border border-[#1E293B] hover:border-[#22D3EE]/50 hover:bg-[#22D3EE]/5 text-[#94A3B8] hover:text-white text-sm font-bold py-3 rounded-xl transition-colors disabled:opacity-50"
+              disabled={changingPw || isGoogleLogin}
+              className="w-full border border-[#1E293B] hover:border-[#22D3EE]/50 hover:bg-[#22D3EE]/5 text-[#94A3B8] hover:text-white text-sm font-bold py-3 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {changingPw ? "Updating..." : "Update Password"}
             </button>
