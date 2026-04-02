@@ -15,7 +15,7 @@ interface AuthState {
   setUser: (user: User) => void;
   login: (data: Record<string, any>) => Promise<User | null>;
   register: (data: Record<string, any>) => Promise<void>;
-  fetchProfile: () => Promise<void>;
+  fetchProfile: () => Promise<User>;
   logout: () => Promise<void>;
   setError: (error: string | null) => void;
   checkAuth: () => void;

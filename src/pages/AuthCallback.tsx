@@ -26,7 +26,6 @@ export function AuthCallbackPage() {
         try {
           // Force Axios to use this exact token immediately for the next request
           // in case Zustand state hasn't propagated synchronously yet
-          const { authService } = await import('../services/auth.service');
           const apiModule = (await import('../config/axios')).default;
           apiModule.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         } catch (e) {
