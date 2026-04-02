@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Check, Copy, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
-import { cn } from "./ui/utils";
+import { cn } from "@/components/ui/utils";
 
 interface ApiKeyDisplayProps {
   apiKey: string;

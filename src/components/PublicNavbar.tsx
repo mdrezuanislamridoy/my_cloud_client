@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { GlowButton } from "./glow-button";
-import { useAuthStore } from "../store/useAuthStore";
+import { GlowButton } from "@/components/glow-button";
+import { useAuthStore } from "@/features/auth/store/useAuthStore";
 
 export function PublicNavbar() {
   const { accessToken } = useAuthStore();

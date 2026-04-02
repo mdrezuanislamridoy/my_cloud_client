@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuthStore } from "../store/useAuthStore";
+import { useAuthStore } from "@/features/auth/store/useAuthStore";
 
 interface GuardProps {
   children: ReactNode;

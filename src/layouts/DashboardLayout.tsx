@@ -4,8 +4,8 @@ import {
   LayoutDashboard, Folder, BarChart3, CreditCard,
   Settings, Menu, X, LogOut, User, Package
 } from "lucide-react";
-import { cn } from "../components/ui/utils";
-import { useAuthStore } from "../store/useAuthStore";
+import { cn } from "@/components/ui/utils";
+import { useAuthStore } from "@/features/auth/store/useAuthStore";
 
 const navItems = [
   { label: "Dashboard", href: "/app", icon: LayoutDashboard },

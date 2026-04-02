@@ -4,8 +4,8 @@ import {
   LayoutDashboard, Users, CreditCard, Package, Layers,
   Menu, X, LogOut, Shield
 } from "lucide-react";
-import { cn } from "../components/ui/utils";
-import { useAuthStore } from "../store/useAuthStore";
+import { cn } from "@/components/ui/utils";
+import { useAuthStore } from "@/features/auth/store/useAuthStore";
 
 const adminNav = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard },

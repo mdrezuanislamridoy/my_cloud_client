@@ -1,4 +1,4 @@
-import { cn } from "./ui/utils";
+import { cn } from "@/components/ui/utils";
 
 interface GlowButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost";
