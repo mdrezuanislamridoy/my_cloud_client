@@ -35,9 +35,6 @@ export function PublicNavbar() {
               <Link to="/app">
                 <GlowButton variant="ghost">Dashboard</GlowButton>
               </Link>
-              <Link to="/app/settings">
-                <GlowButton variant="primary">Profile</GlowButton>
-              </Link>
             </>
           ) : (
             <>
