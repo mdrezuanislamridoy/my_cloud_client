@@ -97,11 +97,13 @@ export const useAuthStore = create<AuthState>()(
         try {
           const user = await authService.getProfile();
           set({ user: user as any, isLoading: false });
+          return user;
         } catch (error: any) {
           set({
             error: error.response?.data?.message || "Failed to fetch profile",
             isLoading: false,
           });
+          throw error;
         }
       },
 
