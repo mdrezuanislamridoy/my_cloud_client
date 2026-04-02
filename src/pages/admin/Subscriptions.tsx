@@ -74,10 +74,10 @@ export function AdminSubscriptionsPage() {
         <p className="text-[#94A3B8] mt-1">Manage all user subscriptions.</p>
       </div>
 
-      <div className="bg-[#0F172A] border border-[#1E293B] rounded-2xl p-4 flex flex-wrap gap-3 items-center">
+      <div className="bg-[#0F172A] border border-[#1E293B] rounded-2xl p-4 flex flex-col md:flex-row gap-3 md:items-center">
         <form
           onSubmit={handleSearch}
-          className="relative group flex-1 min-w-[200px]"
+          className="relative group flex-1 w-full md:min-w-[200px]"
         >
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#4A5568] group-focus-within:text-[#7C3AED] transition-colors" />
           <input
@@ -94,7 +94,7 @@ export function AdminSubscriptionsPage() {
             setStatusFilter(e.target.value);
             setPage(1);
           }}
-          className="bg-[#0B1220] border border-[#1E293B] text-sm text-[#E2E8F0] rounded-xl px-3 py-2 outline-none focus:border-[#7C3AED]/50"
+          className="bg-[#0B1220] border border-[#1E293B] text-sm text-[#E2E8F0] rounded-xl px-3 py-2 outline-none focus:border-[#7C3AED]/50 w-full md:w-auto"
         >
           <option value="">All Status</option>
           <option value="PAID">Paid</option>
@@ -112,7 +112,7 @@ export function AdminSubscriptionsPage() {
 
       <div className="bg-[#0F172A] border border-[#1E293B] rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-left whitespace-nowrap">
             <thead>
               <tr className="border-b border-[#1E293B] bg-[#0B1220]/50">
                 {[

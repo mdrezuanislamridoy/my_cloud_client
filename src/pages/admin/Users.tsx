@@ -60,8 +60,8 @@ export function AdminUsersPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-[#0F172A] border border-[#1E293B] rounded-2xl p-4 flex flex-wrap gap-3 items-center">
-        <form onSubmit={handleSearch} className="relative group flex-1 min-w-[200px]">
+      <div className="bg-[#0F172A] border border-[#1E293B] rounded-2xl p-4 flex flex-col md:flex-row gap-3 md:items-center">
+        <form onSubmit={handleSearch} className="relative group flex-1 w-full md:min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#4A5568] group-focus-within:text-[#7C3AED] transition-colors" />
           <input
             type="text"
@@ -74,7 +74,7 @@ export function AdminUsersPage() {
         <select
           value={roleFilter}
           onChange={(e) => { setRoleFilter(e.target.value); setPage(1); load({ page: 1, search: search || undefined, role: e.target.value || undefined }); }}
-          className="bg-[#0B1220] border border-[#1E293B] text-sm text-[#E2E8F0] rounded-xl px-3 py-2 outline-none focus:border-[#7C3AED]/50"
+          className="bg-[#0B1220] border border-[#1E293B] text-sm text-[#E2E8F0] rounded-xl px-3 py-2 outline-none focus:border-[#7C3AED]/50 w-full sm:w-auto"
         >
           <option value="">All Roles</option>
           <option value="USER">User</option>
@@ -83,7 +83,7 @@ export function AdminUsersPage() {
         <select
           value={blockedFilter}
           onChange={(e) => { setBlockedFilter(e.target.value); setPage(1); load({ page: 1, search: search || undefined, isBlocked: e.target.value !== "" ? e.target.value === "true" : undefined }); }}
-          className="bg-[#0B1220] border border-[#1E293B] text-sm text-[#E2E8F0] rounded-xl px-3 py-2 outline-none focus:border-[#7C3AED]/50"
+          className="bg-[#0B1220] border border-[#1E293B] text-sm text-[#E2E8F0] rounded-xl px-3 py-2 outline-none focus:border-[#7C3AED]/50 w-full sm:w-auto"
         >
           <option value="">All Status</option>
           <option value="false">Active</option>
@@ -97,7 +97,7 @@ export function AdminUsersPage() {
       {/* Table */}
       <div className="bg-[#0F172A] border border-[#1E293B] rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left">
+          <table className="w-full text-left whitespace-nowrap">
             <thead>
               <tr className="border-b border-[#1E293B] bg-[#0B1220]/50">
                 <th className="py-4 px-6 text-[10px] font-black text-[#4A5568] uppercase tracking-widest">User</th>

@@ -196,15 +196,15 @@ export function AppsPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="relative group hidden sm:block">
+        <div className="flex flex-col sm:flex-row w-full md:w-auto items-stretch sm:items-center gap-4">
+          <div className="relative group w-full sm:w-auto mt-4 sm:mt-0">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#4A5568] group-focus-within:text-[#7C3AED] transition-colors" />
             <input
               type="text"
               placeholder="Filter apps..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-[#0F172A] border border-[#1E293B] rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-[#7C3AED]/50 outline-none w-56 transition-all"
+              className="bg-[#0F172A] border border-[#1E293B] rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:border-[#7C3AED]/50 outline-none w-full sm:w-56 transition-all"
             />
           </div>
 

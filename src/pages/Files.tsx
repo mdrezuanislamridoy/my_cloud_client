@@ -362,7 +362,7 @@ export function FilesPage() {
           {viewMode === "list" && (
             <GlassCard className="p-0 overflow-hidden border-[#1E293B]/60">
               <div className="overflow-x-auto">
-                <table className="w-full text-left">
+                <table className="w-full text-left whitespace-nowrap">
                   <thead>
                     <tr className="border-b border-[#1E293B] bg-[#0F172A]/50">
                       <th className="py-4 px-6 text-[10px] font-black text-[#4A5568] uppercase tracking-widest">
