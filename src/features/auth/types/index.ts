@@ -9,7 +9,6 @@ export interface User {
   created_at?: string;
 }
 
-// Server wraps all responses as: { success, message, data: { ... } }
 export interface ApiResponse<T = any> {
   success: boolean;
   message: string;
